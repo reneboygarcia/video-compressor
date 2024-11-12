@@ -1,0 +1,30 @@
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environment directories
+venv/
+env/
+ENV/
+.venv/
+.VENV/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore video files
+# *.mov
+# *.mp4
+
+# Ignore output files
+# compressed_*.mp4
+
+# Ignore any other temporary files
+*.tmp
+*.log
+*.bak
+*.swp
