@@ -1,6 +1,12 @@
+<p align="center">
+    <img src="image/banner.webp" alt="Banner">
+</p>
+
 # Easy Video Compression Guide (Google Colab)
 
 This guide will help you compress videos easily using Google Colab - no installation required!
+
+
 
 ## Quick Start Guide
 

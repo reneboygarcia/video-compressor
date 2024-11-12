@@ -5,8 +5,7 @@ from typing import Tuple, Optional
 from tqdm import tqdm
 import time
 
-print("Setup Complete")
-
+print("All dependencies loaded")
 
 class TelegramVideoCompressor:
     def __init__(self) -> None:
@@ -151,21 +150,30 @@ class TelegramVideoCompressor:
             probe = ffmpeg.probe(input_path)
             duration = float(probe['streams'][0]['duration'])
             
-            with tqdm(total=100, desc="Compressing", unit="%") as pbar:
-                start_time = time.time()
-                last_update = 0
-                while process.poll() is None:
-                    elapsed_time = time.time() - start_time
-                    progress = min(100, (elapsed_time / duration) * 100)
-                    # Only update if there's meaningful progress to avoid excessive updates
-                    if progress - last_update >= 1:
-                        pbar.update(progress - last_update)
-                        last_update = progress
-                    time.sleep(0.1)
-                # Ensure we reach 100% at the end
-                if last_update < 100:
-                    pbar.update(100 - last_update)
-                process.wait()
+            # Create progress bar
+            pbar = tqdm(total=100, desc="Compressing", unit="%")
+            
+            # Initialize start time
+            start_time = time.time()
+
+            # Monitor ffmpeg process and update progress
+            def update_progress(current_time, total_time):
+                progress = int(current_time * 100 / total_time) - pbar.n
+                if progress > 0:
+                    pbar.update(progress)
+
+            # Process the video and update progress
+            while process.poll() is None:
+                elapsed_time = time.time() - start_time
+                update_progress(elapsed_time, duration)
+                time.sleep(0.1)
+
+            # Ensure we reach 100%
+            if pbar.n < 100:
+                pbar.update(100 - pbar.n)
+            
+            process.wait()
+            pbar.close()
             print("Compression completed successfully!")
 
             # Print stats

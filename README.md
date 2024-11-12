@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="image/banner.webp" alt="Banner">
+</p>
+
 # Video Compression Tool
 
 An efficient video compression tool powered by FFmpeg, supporting multiple quality presets and custom resolutions.
